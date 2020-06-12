@@ -306,7 +306,7 @@ void EnteteJeu(int CouleurAtout, int PhaseDeJeu) {
 
 }
 
-void AffichageCartes(int MainJoueur[8]){
+void AffichageCartes(int *MainJoueur){
     int i;
     for (i=0;i<8;i++){
         printf(" %d. ",i+1);

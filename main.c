@@ -35,25 +35,30 @@ int main()
     }else{
         int PaquetDeCartes[32]= {11,12,13,14,15,16,17,18,21,22,23,24,25,26,27,28,31,32,33,34,35,36,37,38,41,42,43,44,45,46,47,48};
         int MainJoueur[9],MainOuest[9],MainEst[9],MainNord[9];
-        int PointeurPasse=0;
 
-        //Initialisation du JEU
 
-        int CouleurAtout=9, PhaseDeJeu=60, i;
-       // int MultiplicateurScore;
-        for (i=0;i<9;i++){
-            MainJoueur[i]=0;
-            MainOuest[i]=0;
-            MainEst[i]=0;
-            MainNord[i]=0;
-        }
+
+
 
         //Debut
 
         do{
+            //Initialisation du JEU
+
+            int CouleurAtout=9, PhaseDeJeu=60, i;
+            // int MultiplicateurScore;
+            for (i=0;i<9;i++){
+                MainJoueur[i]=0;
+                MainOuest[i]=0;
+                MainEst[i]=0;
+                MainNord[i]=0;
+            }
+
+            int PointeurPasse=0;
 
             MelangeCartes(PaquetDeCartes);
             Distribution(PaquetDeCartes, MainJoueur, MainOuest, MainEst, MainNord);
+
 
             EnteteJeu(CouleurAtout,PhaseDeJeu);
             printf("Voici vos cartes : \n");
@@ -150,43 +155,43 @@ int main()
 
                 if (VainqueurManche==71){
                     Pli[0]=JeuJoueur(MainJoueur, CouleurAtout, Pli);
-                        printf("   Joueur joue ");CorrespondanceInt(Pli[0]);printf("\n\n");
+                        printf("   Joueur joue ");CorrespondanceInt(Pli[0]);printf("%d",Pli[0]);printf("\n\n");
                     Pli[1]=JeuBot(MainOuest, CouleurAtout, Pli);
-                        printf("   Ouest joue ");CorrespondanceInt(Pli[1]);printf("\n\n");
+                        printf("   Ouest joue  ");CorrespondanceInt(Pli[1]);printf("%d",Pli[0]);printf("\n\n");
                     Pli[2]=JeuBot(MainNord, CouleurAtout, Pli);
-                        printf("   Nord joue ");CorrespondanceInt(Pli[2]);printf("\n\n");
+                        printf("   Nord joue   ");CorrespondanceInt(Pli[2]);printf("%d",Pli[0]);printf("\n\n");
                     Pli[3]=JeuBot(MainEst, CouleurAtout, Pli);
-                        printf("   Est joue ");CorrespondanceInt(Pli[3]);printf("\n\n");
+                        printf("   Est joue    ");CorrespondanceInt(Pli[3]);printf("%d",Pli[0]);printf("\n\n");
                 }
                 if (VainqueurManche==72){
                     Pli[0]=JeuBot(MainOuest, CouleurAtout, Pli);
-                        printf("   Ouest joue ");CorrespondanceInt(Pli[0]);printf("\n\n");
+                        printf("   Ouest joue  ");CorrespondanceInt(Pli[0]);printf("\n\n");
                     Pli[1]=JeuBot(MainNord, CouleurAtout, Pli);
-                        printf("   Nord joue ");CorrespondanceInt(Pli[1]);printf("\n\n");
+                        printf("   Nord joue   ");CorrespondanceInt(Pli[1]);printf("\n\n");
                     Pli[2]=JeuBot(MainEst, CouleurAtout, Pli);
-                        printf("   Est joue ");CorrespondanceInt(Pli[2]);printf("\n\n");
+                        printf("   Est joue    ");CorrespondanceInt(Pli[2]);printf("\n\n");
                     Pli[3]=JeuJoueur(MainJoueur, CouleurAtout, Pli);
                         printf("   Joueur joue ");CorrespondanceInt(Pli[3]);printf("\n\n");
                 }
                 if (VainqueurManche==73){
                     Pli[0]=JeuBot(MainNord, CouleurAtout, Pli);
-                        printf("   Nord joue ");CorrespondanceInt(Pli[0]);printf("\n\n");
+                        printf("   Nord joue   ");CorrespondanceInt(Pli[0]);printf("\n\n");
                     Pli[1]=JeuBot(MainEst, CouleurAtout, Pli);
-                        printf("   Est joue ");CorrespondanceInt(Pli[1]);printf("\n\n");
+                        printf("   Est joue    ");CorrespondanceInt(Pli[1]);printf("\n\n");
                     Pli[2]=JeuJoueur(MainJoueur, CouleurAtout, Pli);
                         printf("   Joueur joue ");CorrespondanceInt(Pli[2]);printf("\n\n");
                     Pli[3]=JeuBot(MainOuest, CouleurAtout, Pli);
-                        printf("   Ouest joue ");CorrespondanceInt(Pli[3]);printf("\n\n");
+                        printf("   Ouest joue  ");CorrespondanceInt(Pli[3]);printf("\n\n");
                 }
                 if (VainqueurManche==74){
                     Pli[0]=JeuBot(MainEst, CouleurAtout, Pli);
-                        printf("   Est joue ");CorrespondanceInt(Pli[0]);printf("\n\n");
+                        printf("   Est joue    ");CorrespondanceInt(Pli[0]);printf("\n\n");
                     Pli[1]=JeuJoueur(MainJoueur, CouleurAtout, Pli);
                         printf("   Joueur joue ");CorrespondanceInt(Pli[1]);printf("\n\n");
                     Pli[2]=JeuBot(MainOuest, CouleurAtout, Pli);
-                        printf("   Ouest joue ");CorrespondanceInt(Pli[2]);printf("\n\n");
+                        printf("   Ouest joue  ");CorrespondanceInt(Pli[2]);printf("\n\n");
                     Pli[3]=JeuBot(MainNord, CouleurAtout, Pli);
-                        printf("   Nord joue ");CorrespondanceInt(Pli[3]);printf("\n\n");
+                        printf("   Nord joue   ");CorrespondanceInt(Pli[3]);printf("\n\n");
                 }
 
                 VainqueurManche=GagnantPli(Pli, CouleurAtout);

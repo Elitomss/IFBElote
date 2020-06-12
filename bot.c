@@ -112,28 +112,23 @@ int EnchereBot(int *MainCartes, int EnchereHaute, int *PointeurPasse){
 
     if (CoeurFort+TreflFort+CarreFort+PiqueFort>4){
         AtoutBot=5;
-    }
-    if (AvantageSA>4){
-        AtoutBot=6;
-    }
-    if (CoeurFort>TreflFort && CoeurFort>CarreFort && CoeurFort>PiqueFort){
+    }else if (CoeurFort>TreflFort && CoeurFort>CarreFort && CoeurFort>PiqueFort){
         AtoutBot=1;
-    }
-    if (TreflFort>CoeurFort && TreflFort>CarreFort && TreflFort>PiqueFort){
+    }else if (TreflFort>CoeurFort && TreflFort>CarreFort && TreflFort>PiqueFort){
         AtoutBot=2;
-    }
-    if (CarreFort>TreflFort && CarreFort>CoeurFort && CarreFort>PiqueFort){
+    }else if (CarreFort>TreflFort && CarreFort>CoeurFort && CarreFort>PiqueFort){
         AtoutBot=3;
-    }
-    if (PiqueFort>TreflFort && PiqueFort>CarreFort && PiqueFort>CoeurFort){
+    }else if (PiqueFort>TreflFort && PiqueFort>CarreFort && PiqueFort>CoeurFort){
         AtoutBot=4;
+    }else{
+        AtoutBot=6;
     }
 
     MainCartes[8]=AtoutBot;
 
     if (ValEnchereBot>EnchereHaute){
         EnchereHaute=ValEnchereBot;
-        printf("Place une enchere a %d points au ",ValEnchereBot);CorrespondanceInt(MainCartes[8]);
+        printf("Place une enchere a %d points au ",ValEnchereBot);CorrespondanceInt(AtoutBot);
         *PointeurPasse=0;
         return EnchereHaute;
 
@@ -146,60 +141,76 @@ int EnchereBot(int *MainCartes, int EnchereHaute, int *PointeurPasse){
 
 int JeuBot(int *MainBot, int Atout, int *CartesJouees){
 
-    int i,j=0;
-    int CouleurManche, BestCard=0,WorstCard,CarteHaute;
-    int CartesJouables[8];
-    int ForceCarteNA[8]={1,2,3,7,4,5,6,8};
-    int ForceCarteA[8]={1,2,7,5,8,3,4,6};
+    int PresenceAtout=0;
+    int i,ii,j=0;
+    int CouleurManche, BestCard=0,Card,WorstCard,ForceCarteHaute;
+    int CartesJouables[8],CarteRenvoyee;
+    int ForceCarteNA[9]={0,1,2,3,7,4,5,6,8};
+    int ForceCarteA[9]={0,1,2,7,5,8,3,4,6};
 
-    for(i=0;i<4;i++){//On cherche la valeur la plus haute des Cartes jouées
-        if(ForceCarteNA[CartesJouees[i]%10]>CarteHaute){
-            CarteHaute=ForceCarteNA[CartesJouees[i]%10];
-        }
-    }
+
 
     if(CartesJouees[0]==0){//Si le bot est le premier à jouer, il pose une carte aléatoirement
         srand(time(NULL));
         while(BestCard==0){
-            BestCard=rand()%8;
-            BestCard=MainBot[BestCard];
-        }
-    }else{
-        CouleurManche=CartesJouees[0]/10;
-        for(i=0;i<8;i++){ // On cherche une carte de la couleur jouée dans la main
-            if(MainBot[i]/10==CouleurManche){
-                 MainBot[i]=CartesJouables[j];
-                 j++;
-            }
-        }
-        for(i=0;i<8;i++){
-            if(ForceCarteNA[CartesJouables[i]%10]>BestCard && BestCard<CarteHaute){
-                BestCard=ForceCarteNA[CartesJouables[i]%10];
-            }
+            Card=rand()%8;
+            BestCard=MainBot[Card];
+            CarteRenvoyee=BestCard;
         }
 
-        if(CartesJouables[0]==0){ //Si le joueur n'a pas de cartes de la couleur du jeu, on cherche un atout
-            for(i=0;i<8;i++){
-                if(MainBot[i]/10==Atout){
-                     MainBot[i]=CartesJouables[j];
-                     j++;
+    }else{//Si le bot n'est pas le premier, il cherche la couleur de la manche
+
+        for(i=0;i<4;i++){//On cherche la valeur la plus haute des Cartes jouées
+            if(CartesJouees[i]/10==Atout){
+                for(ii=0;ii<4;ii++){
+                    if(ForceCarteA[CartesJouees[i]]>BestCard){
+                        BestCard=CartesJouees[i];
+                        PresenceAtout=1;
+
+                    }
+                }
+            }else{
+                if(PresenceAtout==0){
+                    for(ii=0;ii<4;ii++){
+                        if(ForceCarteNA[CartesJouees[i]]>BestCard){
+                            BestCard=CartesJouees[i];
+                        }
+                    }
                 }
             }
+    }
+        CouleurManche=(CartesJouees[0])/10;
+
+        for(i=0;i<8;i++){ // On cherche une carte de la couleur jouée dans la main
+            if((MainBot[i])/10==CouleurManche){
+                 CartesJouables[j]=MainBot[i];
+                 j++;
+                 if(ForceCarteNA[CartesJouables[j]]>BestCard){
+                    CarteRenvoyee=CartesJouables[j];
+                 }
+            }
+        }
+        if(CartesJouables[0]==0){ //Si le joueur n'a pas de cartes de la couleur du jeu, on cherche un atout
             for(i=0;i<8;i++){
-                if(ForceCarteA[CartesJouables[i]%10]>BestCard){
-                    BestCard=ForceCarteA[CartesJouables[i]%10];
+                if((MainBot[i])/10==Atout){
+                     CartesJouables[j]=MainBot[i];
+                     j++;
+                     if(ForceCarteA[CartesJouables[j]]>BestCard){
+                        CarteRenvoyee=CartesJouables[j];
+                     }
                 }
             }
         }
-        if(CartesJouables==0){//Si le joueur n'a ni couleur ni atout, on prend la plus petite carte
+        if(CartesJouables[0]==0){//Si le joueur n'a ni couleur ni atout, on prend la plus petite carte
             for(i=0;i<8;i++){
-                if(ForceCarteNA[CartesJouables[i]%10]<WorstCard){
-                    WorstCard=ForceCarteNA[CartesJouables[i]%10];
+                if(ForceCarteNA[MainBot[i]%10]<WorstCard){
+                    WorstCard=MainBot[i];
+                    CarteRenvoyee=WorstCard;
                 }
-            return MainBot[WorstCard];
             }
         }
     }
-    return MainBot[BestCard];
+    printf("%d",CarteRenvoyee);
+    return CarteRenvoyee;
 }
 
