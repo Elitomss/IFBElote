@@ -2,25 +2,10 @@
 #include <stdlib.h>
 #include <time.h>
 #include "jeu.h"
+#include "bot.h"
+#include "joueur.h"
 
 
-void EnteteJeu(int CouleurAtout, int PhaseDeJeu) {
-    printf("________________________________________________________________________________\n\n");
-    /* Section Informations Partie */
-    printf(" Phase de jeu :  ");CorrespondanceInt(PhaseDeJeu);printf("\n");
-    printf(" Atout        :  ");CorrespondanceInt(CouleurAtout);printf("\n\n\n");
-
-}
-
-void AffichageCartes(int MainJoueur[8]){
-    int i;
-    for (i=0;i<8;i++){
-        printf(" %d. ",i+1);
-        CorrespondanceInt(MainJoueur[i]);
-        printf("   ");
-    }
-    printf("\n\n");
-}
 
 int main()
 {
@@ -56,7 +41,7 @@ int main()
 
         int CouleurAtout=9, PhaseDeJeu=60, i;
        // int MultiplicateurScore;
-        for (i=0;i<8;i++){
+        for (i=0;i<9;i++){
             MainJoueur[i]=0;
             MainOuest[i]=0;
             MainEst[i]=0;
@@ -74,7 +59,7 @@ int main()
             printf("Voici vos cartes : \n");
             AffichageCartes(MainJoueur);
 
-            int EnchereMaitre, ActionJoueur,Compara,VainqueurEnchere[2];
+            int EnchereMaitre=0, ActionJoueur,Compara,VainqueurEnchere[2];
 
             //Encheres
             int PremierPassage=0;
@@ -88,7 +73,7 @@ int main()
                         if (EnchereMaitre>Compara){
                                 Compara=EnchereMaitre;
                                 VainqueurEnchere[0]=71;
-                                VainqueurEnchere[1]=MainJoueur[9];
+                                VainqueurEnchere[1]=MainJoueur[8];
                         }
                     }else{
                         printf("\n Jouer(1) ou Passer(2) ou Coincher(3) ? => ");
@@ -99,7 +84,7 @@ int main()
                             if (EnchereMaitre>Compara){
                                 Compara=EnchereMaitre;
                                 VainqueurEnchere[0]=71;
-                                VainqueurEnchere[1]=MainJoueur[9];
+                                VainqueurEnchere[1]=MainJoueur[8];
                             }
                         }if(ActionJoueur==3){
                             printf(" Joueur : COINCHE! Le score est multiplie par 2!\n");
@@ -119,7 +104,7 @@ int main()
                     if (EnchereMaitre>Compara){
                         Compara=EnchereMaitre;
                         VainqueurEnchere[0]=72;
-                        VainqueurEnchere[1]=MainOuest[9];
+                        VainqueurEnchere[1]=MainOuest[8];
                     }
                 }else{break;}
                 if (PointeurPasse<3){
@@ -128,7 +113,7 @@ int main()
                     if (EnchereMaitre>Compara){
                         Compara=EnchereMaitre;
                         VainqueurEnchere[0]=73;
-                        VainqueurEnchere[1]=MainNord[9];
+                        VainqueurEnchere[1]=MainNord[8];
                     }
                 }else{break;}
                 if (PointeurPasse<3){
@@ -137,7 +122,7 @@ int main()
                     if (EnchereMaitre>Compara){
                         Compara=EnchereMaitre;
                         VainqueurEnchere[0]=74;
-                        VainqueurEnchere[1]=MainEst[9];
+                        VainqueurEnchere[1]=MainEst[8];
                     }
                 }else{break;}
             }
