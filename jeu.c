@@ -212,55 +212,63 @@ int ComptagePoints(int *Recup, int Atout){
     return Score;
 }
 
-int GagnantPli(int *Carte, int Atout){
-    int i,j;
-    int NbAtout,BestCard;
-    int ForceCarteNA[8]={1,2,3,7,4,5,6,8};
-    int ForceCarteA[8]={1,2,7,5,8,3,4,6};
-    int Proprio;
+int GagnantPli(int *Carte, int Atout,int PremierJoueur){
 
-    for (i=0;i<4;i++){
-        if(Carte[i]/10==Atout){
-            NbAtout+=1;
+    int CouleurManche,BestCardManche;
+    int i;
+
+    CouleurManche=Carte[0]/10;
+    BestCardManche=Carte[0];
+
+    for(i=1;i<3;i++){
+        if(Carte[i]/10==BestCardManche/10 && Carte[i]%10>BestCardManche%10){
+            BestCardManche=Carte[i];
+        }else if(Carte[i]/10==Atout && Carte[i]%10>BestCardManche%10){
+            BestCardManche=Carte[i];
         }
     }
-    if(NbAtout>=2){
-        int *trumpCard = malloc(sizeof(int)*NbAtout);
-        for (i = 0; i < 4; i++){
-            if (Carte[i]/10==Atout){
-                trumpCard[j] = Carte[i];
-                j++;
-            }
-        }
-        for (i = 0; i < NbAtout; i++){
-            if (ForceCarteA[trumpCard[i]%10]>BestCard){
-                BestCard = ForceCarteA[trumpCard[i]%10];
-            }
-        }
-        free(trumpCard);
-        for (i = 0; i < 4; i++){
-            if (Carte[i] == BestCard){
-                return i+70;
-            }
-        }
-        return -1;
 
-    }else if(NbAtout==1){
-        for (i=0;i<4;i++){
-            if(Carte[i]/10==Atout){
-                return i+70;
-            }
+    if(PremierJoueur==71){
+        if(BestCardManche==Carte[0]){
+            return 71;
+        }else if(BestCardManche==Carte[1]){
+            return 72;
+        }else if(BestCardManche==Carte[2]){
+            return 73;
+        }else if(BestCardManche==Carte[3]){
+            return 74;
         }
-
-    }else{
-        for(i=0;i<4;i++){
-            if(ForceCarteNA[Carte[i]%10]>BestCard){
-                Proprio=i+70;
-                BestCard=ForceCarteNA[Carte[i]%10];
-            }
+    }else if(PremierJoueur==72){
+        if(BestCardManche==Carte[0]){
+            return 72;
+        }else if(BestCardManche==Carte[1]){
+            return 73;
+        }else if(BestCardManche==Carte[2]){
+            return 74;
+        }else if(BestCardManche==Carte[3]){
+            return 71;
+        }
+    }else if(PremierJoueur==73){
+        if(BestCardManche==Carte[0]){
+            return 73;
+        }else if(BestCardManche==Carte[1]){
+            return 74;
+        }else if(BestCardManche==Carte[2]){
+            return 71;
+        }else if(BestCardManche==Carte[3]){
+            return 72;
+        }
+    }else if(PremierJoueur==74){
+        if(BestCardManche==Carte[0]){
+            return 74;
+        }else if(BestCardManche==Carte[1]){
+            return 71;
+        }else if(BestCardManche==Carte[2]){
+            return 72;
+        }else if(BestCardManche==Carte[3]){
+            return 73;
         }
     }
-    return Proprio;
 }
 
 int MancheGagneePar(int VainqueurManche, int Compteur, int *Pli, int *RecupJoueur, int *RecupOuest, int *RecupEst, int *RecupNord){
@@ -268,28 +276,28 @@ int MancheGagneePar(int VainqueurManche, int Compteur, int *Pli, int *RecupJoueu
     int i;
 
     if(VainqueurManche==71){
-        printf("Vous remporter le pli !");
+        printf("Vous remporter le pli !\n\n");
         for(i=0;i<4;i++){
             RecupJoueur[Compteur]=Pli[i];
             Compteur++;
         }
     }
     if(VainqueurManche==72){
-        printf("Ouest remporte le pli !");
+        printf("Ouest remporte le pli !\n\n");
         for(i=0;i<4;i++){
             RecupOuest[Compteur]=Pli[i];
             Compteur++;
         }
     }
     if(VainqueurManche==73){
-        printf("Nord remporte le pli !");
+        printf("Nord remporte le pli !\n\n");
         for(i=0;i<4;i++){
             RecupNord[Compteur]=Pli[i];
             Compteur++;
         }
     }
     if(VainqueurManche==74){
-        printf("Est remporte le pli !");
+        printf("Est remporte le pli !\n\n");
         for(i=0;i<4;i++){
             RecupEst[Compteur]=Pli[i];
             Compteur++;
